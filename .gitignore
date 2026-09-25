@@ -1,0 +1,42 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# --- Environment / secrets ---
+.env
+.env.local
+
+# --- Node / frontend ---
+node_modules/
+dist/
+.vite/
+frontend/build/
+
+# --- Model weights & large binaries (never commit these) ---
+*.onnx
+*.bin
+*.gguf
+*.pt
+*.safetensors
+models/weights/
+models/*.onnx
+models/*.bin
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Logs ---
+*.log
+logs/
+
+# --- Demo artifacts (keep the final one, ignore drafts) ---
+demo_recordings/drafts/
