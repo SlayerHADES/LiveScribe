@@ -27,6 +27,7 @@ frontend/build/
 models/weights/
 models/*.onnx
 models/*.bin
+backend/models/
 
 # --- OS / editor ---
 .DS_Store

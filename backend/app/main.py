@@ -11,7 +11,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import FRONTEND_ORIGIN
-from app.routes import health
+from app.routes import benchmarks, export, health, network, summarization, transcription
 
 # ─── Logging ──────────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -38,6 +38,11 @@ app.add_middleware(
 
 # ─── Routes ──────────────────────────────────────────────────────────────────
 app.include_router(health.router)
+app.include_router(transcription.router)
+app.include_router(summarization.router)
+app.include_router(network.router)
+app.include_router(benchmarks.router)
+app.include_router(export.router)
 
 
 @app.on_event("startup")

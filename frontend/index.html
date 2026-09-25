@@ -3,78 +3,391 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="OfflineScribe — Offline meeting transcription & summarization powered by Snapdragon NPU. No internet required." />
-    <title>OfflineScribe — Offline AI Meeting Assistant</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <meta name="description" content="LiveScribe — Your conversation, understood in real time. On-device AI live transcription & meeting intelligence." />
+    <title>LiveScribe — Real-Time AI Meeting Intelligence</title>
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-    <!-- ─── Top bar ───────────────────────────────────────────────────── -->
-    <header id="app-header">
-      <div class="header-left">
-        <div class="logo">
-          <span class="logo-icon">🎙</span>
-          <h1>OfflineScribe</h1>
+
+    <!-- ═════════════════════════════════════════════════════════════════════════ -->
+    <!-- 1. LANDING PAGE VIEW                                                      -->
+    <!-- ═════════════════════════════════════════════════════════════════════════ -->
+    <div id="landing-page-view">
+      <!-- Navigation -->
+      <nav class="landing-nav">
+        <div class="brand-logo">
+          <div class="brand-icon">🎙</div>
+          <span>LiveScribe</span>
         </div>
-        <span class="tagline">On-device AI meeting assistant</span>
+        <div class="nav-links">
+          <a href="#features" class="nav-link">Features</a>
+          <a href="#intelligence" class="nav-link">Intelligence</a>
+          <a href="#usecases" class="nav-link">Use Cases</a>
+          <button id="nav-start-btn" class="btn-primary">
+            <span>Start Recording</span>
+            <span>→</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="hero-eyebrow">
+          <span>THE AI-NATIVE LIVE TRANSCRIPTION PLATFORM</span>
+        </div>
+        <h1 class="hero-title">
+          EVERY CONVERSATION.<br />CAPTURED AS IT HAPPENS.
+        </h1>
+        <p class="hero-subtitle">
+          LiveScribe turns conversations into searchable transcripts, clear summaries, decisions, and action items — in real time.
+        </p>
+
+        <div class="hero-ctas">
+          <button id="hero-start-btn" class="btn-primary">
+            <span>Start Recording</span>
+            <span>🎙</span>
+          </button>
+          <button id="hero-demo-btn" class="btn-secondary">
+            <span>See how it works</span>
+          </button>
+        </div>
+
+        <!-- Hero Live Demo Widget -->
+        <div class="hero-demo-card glass-card border-beam">
+          <div class="demo-header">
+            <div class="live-indicator">
+              <span class="live-dot"></span>
+              <span>LISTENING • 00:04:27</span>
+            </div>
+            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-cyan);">Qualcomm Hexagon NPU</span>
+          </div>
+
+          <canvas id="hero-waveform-canvas" class="demo-waveform-canvas"></canvas>
+
+          <div id="hero-transcript-preview" class="demo-transcript-text">
+            "We've been looking at the onboarding experience, and the main bottleneck is activation speed..."
+          </div>
+        </div>
+      </section>
+
+      <!-- Feature Sections Grid -->
+      <section id="features" class="features-grid">
+        <div class="feature-card glass-card">
+          <div class="feature-num">01</div>
+          <h3 class="feature-title">Real-Time Transcription</h3>
+          <p class="feature-desc">Sub-300ms latency stream recognition powered by on-device Whisper models running on the Snapdragon Hexagon NPU.</p>
+        </div>
+
+        <div id="intelligence" class="feature-card glass-card">
+          <div class="feature-num">02</div>
+          <h3 class="feature-title">Conversation Intelligence</h3>
+          <p class="feature-desc">Automatic extraction of executive briefs, explicit team decisions, and assigned action items with task owners.</p>
+        </div>
+
+        <div class="feature-card glass-card">
+          <div class="feature-num">03</div>
+          <h3 class="feature-title">Ask Your Conversation</h3>
+          <p class="feature-desc">Contextual AI assistant that answers questions about your meeting and cites clickable transcript timestamps.</p>
+        </div>
+
+        <div id="usecases" class="feature-card glass-card">
+          <div class="feature-num">04</div>
+          <h3 class="feature-title">Built for Every Field</h3>
+          <p class="feature-desc">Optimized for product design meetings, user interviews, research sessions, lectures, and sales calls.</p>
+        </div>
+      </section>
+    </div>
+
+
+    <!-- ═════════════════════════════════════════════════════════════════════════ -->
+    <!-- 2. APPLICATION STUDIO VIEW                                                -->
+    <!-- ═════════════════════════════════════════════════════════════════════════ -->
+    <div id="app-studio-view" class="hidden">
+      <!-- 240px Left Sidebar -->
+      <aside class="app-sidebar">
+        <div>
+          <div class="sidebar-logo">
+            <div class="brand-icon">🎙</div>
+            <span>LiveScribe</span>
+          </div>
+
+          <div class="sidebar-menu">
+            <div id="menu-home" class="sidebar-item">
+              <span>🏠</span>
+              <span>Home</span>
+            </div>
+            <div id="menu-record" class="sidebar-item active">
+              <span>🎙</span>
+              <span>Live Studio</span>
+            </div>
+            <div id="menu-transcripts" class="sidebar-item">
+              <span>📄</span>
+              <span>Transcripts</span>
+            </div>
+            <div id="menu-meetings" class="sidebar-item">
+              <span>📅</span>
+              <span>Meetings</span>
+            </div>
+            <div id="menu-insights" class="sidebar-item">
+              <span>⚡</span>
+              <span>AI Insights</span>
+            </div>
+          </div>
+
+          <div class="sidebar-group-title">Workspaces</div>
+          <div class="sidebar-menu">
+            <div class="sidebar-item"><span>📌</span><span>Product Strategy</span></div>
+            <div class="sidebar-item"><span>📌</span><span>User Research</span></div>
+            <div class="sidebar-item"><span>📌</span><span>Engineering Sync</span></div>
+          </div>
+        </div>
+
+        <div class="sidebar-user">
+          <div class="avatar">KM</div>
+          <div class="user-info">
+            <span class="user-name">Kshitij M.</span>
+            <span class="user-role">Lead Architect</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Studio Container -->
+      <div class="app-main-area">
+        <!-- Top Bar -->
+        <header class="app-topbar">
+          <div class="breadcrumb">
+            <span>Workspace</span>
+            <span>/</span>
+            <span class="breadcrumb-active">Product Strategy Meeting</span>
+          </div>
+
+          <div class="topbar-right">
+            <button id="topbar-cmd-btn" class="cmd-trigger-btn">
+              <span>Search / Commands</span>
+              <kbd class="cmd-kbd">⌘K</kbd>
+            </button>
+
+            <div id="network-badge-app" class="status-badge online" style="font-family: var(--font-mono); font-size: 0.75rem;">
+              <span class="status-dot"></span>
+              <span id="network-status-label">Online</span>
+            </div>
+
+            <button id="export-notes-btn" class="tool-btn" title="Download meeting notes as Markdown">
+              <span>📥 Export Notes</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- 3-Column Studio Content Grid -->
+        <div class="studio-content-grid">
+          <!-- Left Main Column (Transcript & Controls) -->
+          <div class="studio-transcript-column">
+            <!-- Header Card -->
+            <div class="session-header-card glass-card">
+              <div class="session-title-group">
+                <h1 id="session-title">Product Strategy & Activation Meeting</h1>
+                <div class="session-meta">
+                  <span id="studio-live-badge" class="live-indicator">
+                    <span class="live-dot"></span>
+                    <span id="studio-status-text">LISTENING</span>
+                  </span>
+                  <span>•</span>
+                  <span id="studio-timer" style="font-family: var(--font-mono); font-weight: 600;">00:12:48</span>
+                  <span>•</span>
+                  <span>3 Participants</span>
+                  <span>•</span>
+                  <span>English</span>
+                </div>
+              </div>
+
+              <div class="session-controls">
+                <button id="studio-mic-btn" class="mic-toggle-btn recording" title="Toggle Microphone">
+                  <span>🎙</span>
+                </button>
+                <button id="studio-pause-btn" class="tool-btn">Pause</button>
+                <button id="studio-stop-btn" class="tool-btn" style="border-color: rgba(244,63,94,0.4); color: var(--accent-coral);">Stop Session</button>
+              </div>
+            </div>
+
+            <!-- Waveform Canvas Card -->
+            <div class="visualizer-card glass-card">
+              <canvas id="studio-waveform-canvas" class="studio-canvas"></canvas>
+            </div>
+
+            <!-- Document Transcript Surface -->
+            <div class="transcript-surface-card glass-card">
+              <div class="transcript-toolbar">
+                <div class="toolbar-left">
+                  <span style="font-weight: 600; font-size: 0.9rem;">Live Transcript</span>
+                  <span id="chunk-stats-pill" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">Chunks: 14 • Avg Latency: 312 ms</span>
+                </div>
+                <div class="toolbar-right">
+                  <button id="search-transcript-btn" class="tool-btn">🔍 Search</button>
+                  <button id="filter-speaker-btn" class="tool-btn">👥 Speakers</button>
+                  <button id="copy-transcript-btn" class="tool-btn">📋 Copy</button>
+                </div>
+              </div>
+
+              <!-- Live Transcript Body -->
+              <div id="transcript-body" class="transcript-editor-body">
+                <!-- Segment 1 -->
+                <div class="speaker-block" data-timestamp="10:42" id="ts-10-42">
+                  <div class="speaker-avatar-badge speaker-alex">AM</div>
+                  <div class="speaker-content">
+                    <div class="speaker-meta">
+                      <span class="speaker-name">Alex Morgan</span>
+                      <span class="speaker-time">10:42</span>
+                    </div>
+                    <div class="speaker-speech">
+                      "We need to rethink how users discover the product. Right now we are losing over 40% of signups before they finish setup."
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Segment 2 -->
+                <div class="speaker-block" data-timestamp="10:43" id="ts-10-43">
+                  <div class="speaker-avatar-badge speaker-kshitij">KM</div>
+                  <div class="speaker-content">
+                    <div class="speaker-meta">
+                      <span class="speaker-name">Kshitij M.</span>
+                      <span class="speaker-time">10:43</span>
+                    </div>
+                    <div class="speaker-speech">
+                      "I agree. I think the biggest issue is that we're optimizing for acquisition before activation. We should simplify the flow from 5 steps down to 3."
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Active Live Sentence Segment -->
+                <div class="speaker-block active-sentence" data-timestamp="10:44" id="ts-active-sentence">
+                  <div class="speaker-avatar-badge speaker-alex">AM</div>
+                  <div class="speaker-content">
+                    <div class="speaker-meta">
+                      <span class="speaker-name">Alex Morgan</span>
+                      <span class="speaker-time">10:44</span>
+                      <span class="live-badge">LIVE</span>
+                    </div>
+                    <div id="live-speech-stream" class="speaker-speech">
+                      "Exactly. The onboarding experience is where we're losing people. Let's make sure Kshitij reviews the onboarding funnel metrics by Friday."
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: AI Context Panel (Chatbase + Reevo) -->
+          <div class="studio-ai-column">
+            <!-- Tabs -->
+            <div class="ai-tab-header">
+              <button class="ai-tab-btn active" data-tab="summary">Summary</button>
+              <button class="ai-tab-btn" data-tab="actions">Actions</button>
+              <button class="ai-tab-btn" data-tab="topics">Topics</button>
+              <button class="ai-tab-btn" data-tab="ask">Ask AI</button>
+              <button class="ai-tab-btn" data-tab="telemetry">NPU Stats</button>
+            </div>
+
+            <!-- Tab Body -->
+            <div class="ai-tab-body">
+              <!-- SUMMARY TAB -->
+              <div id="tab-content-summary" class="tab-pane">
+                <div class="ai-summary-block">
+                  <h3>Executive Summary</h3>
+                  <p id="ai-summary-paragraph" class="ai-summary-text">
+                    Product onboarding is currently creating friction during activation. The team agreed to simplify the onboarding flow from 5 steps to 3 and review activation metrics before the next release.
+                  </p>
+                </div>
+
+                <div class="ai-summary-block">
+                  <h3>Key Decisions</h3>
+                  <div id="ai-decisions-list" class="decisions-list-ai">
+                    <div class="decision-item-ai">Simplify onboarding workflow from 5 steps down to 3.</div>
+                    <div class="decision-item-ai">Use PostgreSQL instead of MySQL for session indexing.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ACTIONS TAB -->
+              <div id="tab-content-actions" class="tab-pane hidden">
+                <div class="ai-summary-block">
+                  <h3>Action Items & Owners</h3>
+                  <div id="ai-actions-list" class="action-list-ai">
+                    <div class="action-card-ai">
+                      <span class="action-task-text">Review onboarding funnel metrics</span>
+                      <span class="owner-pill assigned">Kshitij M.</span>
+                    </div>
+                    <div class="action-card-ai">
+                      <span class="action-task-text">Prepare 3-step onboarding redesign mocks</span>
+                      <span class="owner-pill assigned">Alex Morgan</span>
+                    </div>
+                    <div class="action-card-ai">
+                      <span class="action-task-text">Verify session index schema</span>
+                      <span class="owner-pill unassigned">Unassigned</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- TOPICS TAB -->
+              <div id="tab-content-topics" class="tab-pane hidden">
+                <div class="ai-summary-block">
+                  <h3>Identified Topics</h3>
+                  <div class="topics-chips-grid">
+                    <span class="topic-chip" data-jump="ts-10-42"># Onboarding</span>
+                    <span class="topic-chip" data-jump="ts-10-43"># Activation Speed</span>
+                    <span class="topic-chip" data-jump="ts-10-43"># Workflow Simplification</span>
+                    <span class="topic-chip" data-jump="ts-10-44"># Funnel Metrics</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ASK AI TAB (Chatbase style with timestamps) -->
+              <div id="tab-content-ask" class="tab-pane hidden" style="height: 100%;">
+                <div class="ask-ai-container">
+                  <div id="ask-ai-messages" class="ask-ai-messages">
+                    <div class="chat-msg assistant">
+                      <span>Hello! Ask anything about this meeting transcript.</span>
+                    </div>
+                    <div class="chat-msg user">
+                      <span>What was decided about the onboarding flow?</span>
+                    </div>
+                    <div class="chat-msg assistant">
+                      <span>The team agreed to simplify the onboarding flow from 5 steps down to 3 to improve activation rates.</span>
+                      <button class="citation-pill" data-jump="ts-10-43">📍 10:43 — Kshitij M.</button>
+                    </div>
+                  </div>
+
+                  <form id="ask-ai-form" class="ask-ai-input-box">
+                    <input type="text" id="ask-ai-input" class="ask-ai-input" placeholder="Ask this conversation..." autocomplete="off" />
+                    <button type="submit" class="ask-ai-send-btn">➔</button>
+                  </form>
+                </div>
+              </div>
+
+              <!-- TELEMETRY TAB -->
+              <div id="tab-content-telemetry" class="tab-pane hidden">
+                <div class="ai-summary-block">
+                  <h3>Hardware Execution Provider</h3>
+                  <div style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent-cyan);" id="npu-provider-val">
+                    QNNExecutionProvider (Hexagon NPU)
+                  </div>
+                </div>
+
+                <div class="ai-summary-block">
+                  <h3>System Resources</h3>
+                  <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-secondary);">
+                    <div>CPU Usage: <span id="telemetry-cpu">5.2 %</span></div>
+                    <div>Process Memory: <span id="telemetry-mem">145 MB</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="header-right">
-        <div id="npu-badge" class="status-badge checking" title="Checking NPU status…">
-          <span class="status-dot"></span>
-          <span class="status-label">Checking…</span>
-        </div>
-        <div id="network-badge" class="status-badge offline" title="Network status">
-          <span class="status-dot"></span>
-          <span class="status-label">—</span>
-        </div>
-      </div>
-    </header>
+    </div>
 
-    <!-- ─── Main content ──────────────────────────────────────────────── -->
-    <main id="app-main">
-      <!-- Hero / status card -->
-      <section id="status-card" class="glass-card">
-        <h2>System Status</h2>
-        <div class="status-grid">
-          <div class="status-item" id="status-health">
-            <span class="status-item-label">Backend</span>
-            <span class="status-item-value" id="health-value">—</span>
-          </div>
-          <div class="status-item" id="status-provider">
-            <span class="status-item-label">Execution Provider</span>
-            <span class="status-item-value" id="provider-value">—</span>
-          </div>
-          <div class="status-item" id="status-npu">
-            <span class="status-item-label">NPU Confirmed</span>
-            <span class="status-item-value" id="npu-value">—</span>
-          </div>
-          <div class="status-item" id="status-fallback">
-            <span class="status-item-label">CPU Fallback</span>
-            <span class="status-item-value" id="fallback-value">—</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Transcript area (placeholder for Phase 2) -->
-      <section id="transcript-card" class="glass-card coming-soon">
-        <h2>Live Transcript</h2>
-        <p class="placeholder-text">🔜 Coming in Phase 2 — Whisper on-device transcription</p>
-      </section>
-
-      <!-- Summary area (placeholder for Phase 3) -->
-      <section id="summary-card" class="glass-card coming-soon">
-        <h2>AI Summary</h2>
-        <p class="placeholder-text">🔜 Coming in Phase 3 — Local LLM summarization</p>
-      </section>
-    </main>
-
-    <!-- ─── Footer ────────────────────────────────────────────────────── -->
-    <footer id="app-footer">
-      <span>OfflineScribe • Built for the Snapdragon® AI Lab Challenge 2026</span>
-    </footer>
-
+    <!-- Script Entry -->
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

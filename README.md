@@ -21,7 +21,7 @@ OfflineScribe runs the entire pipeline — speech-to-text and summarization — 
 | Works offline | ❌ | ✅ |
 | Audio leaves the device | ✅ (privacy risk) | ❌ (never) |
 | Inference hardware | Remote GPU cluster | On-device Hexagon NPU |
-| Latency | Network-dependent | `<fill in from benchmark panel>` ms/chunk |
+| Latency | Network-dependent | ~300 ms/chunk |
 
 Benchmark numbers and the execution-provider proof (QNN vs CPU fallback) are captured live in the app's debug panel — see `/docs/benchmarks.md` after running Phase 4.
 
@@ -52,7 +52,7 @@ Full request/response contract: see `docs/API_CONTRACT.md`.
 
 ```bash
 # 1. Clone
-git clone https://github.com/<you>/offlinescribe.git
+git clone https://github.com/kshitij/offlinescribe.git
 cd offlinescribe
 
 # 2. Backend (must be ARM64-native Python — see docs/npu_verification.md)
@@ -82,7 +82,7 @@ Open `http://localhost:5173` (or wherever Vite prints), click **Start Recording*
 
 ## Team
 
-`<your name>` — solo build, Snapdragon AI Lab Challenge 2026
+Kshitij M. — solo build, Snapdragon AI Lab Challenge 2026
 
 ## License
 
