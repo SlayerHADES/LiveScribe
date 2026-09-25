@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="OfflineScribe — Offline meeting transcription & summarization powered by Snapdragon NPU. No internet required." />
+    <title>OfflineScribe — Offline AI Meeting Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- ─── Top bar ───────────────────────────────────────────────────── -->
+    <header id="app-header">
+      <div class="header-left">
+        <div class="logo">
+          <span class="logo-icon">🎙</span>
+          <h1>OfflineScribe</h1>
+        </div>
+        <span class="tagline">On-device AI meeting assistant</span>
+      </div>
+      <div class="header-right">
+        <div id="npu-badge" class="status-badge checking" title="Checking NPU status…">
+          <span class="status-dot"></span>
+          <span class="status-label">Checking…</span>
+        </div>
+        <div id="network-badge" class="status-badge offline" title="Network status">
+          <span class="status-dot"></span>
+          <span class="status-label">—</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ─── Main content ──────────────────────────────────────────────── -->
+    <main id="app-main">
+      <!-- Hero / status card -->
+      <section id="status-card" class="glass-card">
+        <h2>System Status</h2>
+        <div class="status-grid">
+          <div class="status-item" id="status-health">
+            <span class="status-item-label">Backend</span>
+            <span class="status-item-value" id="health-value">—</span>
+          </div>
+          <div class="status-item" id="status-provider">
+            <span class="status-item-label">Execution Provider</span>
+            <span class="status-item-value" id="provider-value">—</span>
+          </div>
+          <div class="status-item" id="status-npu">
+            <span class="status-item-label">NPU Confirmed</span>
+            <span class="status-item-value" id="npu-value">—</span>
+          </div>
+          <div class="status-item" id="status-fallback">
+            <span class="status-item-label">CPU Fallback</span>
+            <span class="status-item-value" id="fallback-value">—</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Transcript area (placeholder for Phase 2) -->
+      <section id="transcript-card" class="glass-card coming-soon">
+        <h2>Live Transcript</h2>
+        <p class="placeholder-text">🔜 Coming in Phase 2 — Whisper on-device transcription</p>
+      </section>
+
+      <!-- Summary area (placeholder for Phase 3) -->
+      <section id="summary-card" class="glass-card coming-soon">
+        <h2>AI Summary</h2>
+        <p class="placeholder-text">🔜 Coming in Phase 3 — Local LLM summarization</p>
+      </section>
+    </main>
+
+    <!-- ─── Footer ────────────────────────────────────────────────────── -->
+    <footer id="app-footer">
+      <span>OfflineScribe • Built for the Snapdragon® AI Lab Challenge 2026</span>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,376 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   OfflineScribe — Design System & Base Styles
+   Dark-mode, glassmorphism, modern typography.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── CSS Variables (Design Tokens) ──────────────────────────────────────── */
+:root {
+  /* Background */
+  --bg-primary: #0a0e17;
+  --bg-secondary: #111827;
+  --bg-card: rgba(17, 24, 39, 0.6);
+  --bg-card-border: rgba(99, 102, 241, 0.15);
+  --bg-card-hover: rgba(99, 102, 241, 0.08);
+
+  /* Text */
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  /* Accent — indigo/violet spectrum */
+  --accent: #818cf8;
+  --accent-bright: #a78bfa;
+  --accent-dim: #6366f1;
+  --accent-glow: rgba(129, 140, 248, 0.25);
+
+  /* Status colors */
+  --status-ok: #34d399;
+  --status-ok-glow: rgba(52, 211, 153, 0.3);
+  --status-warn: #fbbf24;
+  --status-warn-glow: rgba(251, 191, 36, 0.3);
+  --status-error: #f87171;
+  --status-error-glow: rgba(248, 113, 113, 0.3);
+  --status-checking: #60a5fa;
+  --status-checking-glow: rgba(96, 165, 250, 0.3);
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Fonts */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 150ms var(--ease-out);
+  --transition-normal: 250ms var(--ease-out);
+  --transition-slow: 400ms var(--ease-out);
+}
+
+/* ─── Reset & Base ───────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.6;
+
+  /* Subtle gradient background */
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.12), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(168, 85, 247, 0.08), transparent);
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+#app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-xl);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  background: rgba(10, 14, 23, 0.8);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.logo-icon {
+  font-size: 1.5rem;
+  filter: drop-shadow(0 0 8px var(--accent-glow));
+}
+
+.logo h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--accent), var(--accent-bright));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tagline {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+/* ─── Status Badges ──────────────────────────────────────────────────────── */
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  border: 1px solid transparent;
+  transition: all var(--transition-normal);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: all var(--transition-normal);
+}
+
+/* Badge states */
+.status-badge.ok {
+  background: rgba(52, 211, 153, 0.1);
+  border-color: rgba(52, 211, 153, 0.25);
+  color: var(--status-ok);
+}
+.status-badge.ok .status-dot {
+  background: var(--status-ok);
+  box-shadow: 0 0 8px var(--status-ok-glow);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.status-badge.warn {
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.25);
+  color: var(--status-warn);
+}
+.status-badge.warn .status-dot {
+  background: var(--status-warn);
+  box-shadow: 0 0 8px var(--status-warn-glow);
+}
+
+.status-badge.error,
+.status-badge.offline {
+  background: rgba(248, 113, 113, 0.1);
+  border-color: rgba(248, 113, 113, 0.25);
+  color: var(--status-error);
+}
+.status-badge.error .status-dot,
+.status-badge.offline .status-dot {
+  background: var(--status-error);
+  box-shadow: 0 0 8px var(--status-error-glow);
+}
+
+.status-badge.checking {
+  background: rgba(96, 165, 250, 0.1);
+  border-color: rgba(96, 165, 250, 0.25);
+  color: var(--status-checking);
+}
+.status-badge.checking .status-dot {
+  background: var(--status-checking);
+  box-shadow: 0 0 8px var(--status-checking-glow);
+  animation: pulse-dot 1s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* ─── Main Content ───────────────────────────────────────────────────────── */
+#app-main {
+  flex: 1;
+  padding: var(--space-xl);
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* ─── Glass Cards ────────────────────────────────────────────────────────── */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  backdrop-filter: blur(16px);
+  transition: all var(--transition-normal);
+}
+
+.glass-card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(99, 102, 241, 0.25);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), 0 0 48px var(--accent-glow);
+}
+
+.glass-card h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.glass-card h2::before {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  background: linear-gradient(180deg, var(--accent), var(--accent-bright));
+  border-radius: var(--radius-full);
+}
+
+/* ─── Status Grid (System Status card) ───────────────────────────────────── */
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-md);
+}
+
+.status-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  transition: all var(--transition-fast);
+}
+
+.status-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.status-item-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-xs);
+}
+
+.status-item-value {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  word-break: break-all;
+}
+
+.status-item-value.ok {
+  color: var(--status-ok);
+}
+
+.status-item-value.warn {
+  color: var(--status-warn);
+}
+
+.status-item-value.error {
+  color: var(--status-error);
+}
+
+/* ─── Coming Soon (Phase 2/3 placeholders) ───────────────────────────────── */
+.coming-soon {
+  opacity: 0.5;
+  border-style: dashed;
+}
+
+.placeholder-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+#app-footer {
+  text-align: center;
+  padding: var(--space-lg) var(--space-xl);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  #app-header {
+    flex-direction: column;
+    gap: var(--space-md);
+    align-items: flex-start;
+  }
+  .header-right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  #app-main {
+    padding: var(--space-md);
+  }
+  .status-grid {
+    grid-template-columns: 1fr;
+  }
+  .tagline {
+    display: none;
+  }
+}
+
+/* ─── Animations ─────────────────────────────────────────────────────────── */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.glass-card {
+  animation: fade-in-up 0.6s var(--ease-out) backwards;
+}
+
+.glass-card:nth-child(1) { animation-delay: 0.1s; }
+.glass-card:nth-child(2) { animation-delay: 0.2s; }
+.glass-card:nth-child(3) { animation-delay: 0.3s; }
