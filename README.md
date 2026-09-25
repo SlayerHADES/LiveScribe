@@ -1,89 +1,103 @@
-# OfflineScribe
+# LiveScribe
 
-**Offline meeting & lecture assistant — on-device Whisper transcription + local LLM summarization, running entirely on the Snapdragon Hexagon NPU. No internet required. No audio ever leaves the device.**
+**Your conversation, understood in real time. On-device Whisper live transcription + local LLM meeting intelligence running 100% locally on the Snapdragon® Hexagon NPU. No internet required. Zero data leaves your device.**
 
 Built for the [Snapdragon® AI Lab Build & Present Challenge](https://unstop.com) (Qualcomm).
 
 ---
 
-## The problem
+## 📸 Interface Screenshots
 
-Meeting and lecture transcription tools today all send your audio to the cloud. That's a real privacy problem for confidential meetings, and it stops working the moment you lose connectivity — on a flight, in a basement lab, in a low-connectivity classroom.
+### 1. Reevo-Inspired High-Contrast Landing Page
+![LiveScribe Landing Page](docs/screenshots/hero_landing.jpg)
 
-## The solution
+### 2. Live Studio Workspace & Contextual AI Panel
+![LiveScribe Studio Workspace](docs/screenshots/studio_app.jpg)
 
-OfflineScribe runs the entire pipeline — speech-to-text and summarization — locally on the Snapdragon NPU via ONNX Runtime's QNN execution provider. It works with wifi fully disabled, proven live in the demo.
+---
 
-## Why this needs the NPU (not just "AI with a UI")
+## 🚀 The Problem
 
-| | Cloud-based tools | OfflineScribe |
+Meeting and lecture transcription tools today send your audio to remote cloud servers. This creates severe data privacy vulnerabilities for confidential discussions, IP-sensitive research, and strategic meetings. Furthermore, cloud tools fail completely when internet connectivity is unavailable — such as in flight, in basement labs, or in low-connectivity classrooms.
+
+## ⚡ The Solution
+
+LiveScribe runs the entire processing pipeline — speech-to-text and LLM summarization — locally on the Snapdragon Hexagon NPU via ONNX Runtime's QNN execution provider (`QNNExecutionProvider`). It works with Wi-Fi fully disabled, proven live in the offline benchmark panel.
+
+## 📊 Why NPU (Benchmarking vs Cloud Tools)
+
+| Feature / Metric | Cloud Tools | LiveScribe (Snapdragon NPU) |
 |---|---|---|
-| Works offline | ❌ | ✅ |
-| Audio leaves the device | ✅ (privacy risk) | ❌ (never) |
-| Inference hardware | Remote GPU cluster | On-device Hexagon NPU |
-| Latency | Network-dependent | ~300 ms/chunk |
+| **Works Offline** | ❌ | ✅ **100% Local (Airplane Mode)** |
+| **Audio Privacy** | ✅ (Cloud Exposure) | ❌ **0 Bytes Leave Device** |
+| **Inference Hardware** | Remote GPU Cluster | **Qualcomm Hexagon NPU** |
+| **Chunk Latency** | Network-dependent (1-3s) | **~300 ms/chunk** |
 
-Benchmark numbers and the execution-provider proof (QNN vs CPU fallback) are captured live in the app's debug panel — see `/docs/benchmarks.md` after running Phase 4.
+---
 
-## Architecture
+## 🏗 Architecture
 
 ```
-┌─────────────┐    audio chunks    ┌──────────────────┐
-│  Frontend    │ ─────────────────▶│  Backend (FastAPI)│
-│  (mic UI,    │                    │                   │
-│  live text)  │◀───────────────── │  Whisper (QNN/NPU)│
-└─────────────┘   transcript/ws     │        ↓          │
-                                    │  Local LLM (QNN)  │
-                                    │  → summary JSON   │
-                                    └──────────────────┘
+┌─────────────────┐    binary audio    ┌──────────────────────┐
+│  LiveScribe UI  │ ──────────────────▶│  FastAPI Backend     │
+│  (Canvas Mic    │                    │                      │
+│   Visualizer)   │◀────────────────── │  Whisper (QNN/NPU)   │
+└─────────────────┘   transcript/ws    │          ↓           │
+                                       │  Local LLM (QNN)     │
+                                       │  → Summary & Actions │
+                                       └──────────────────────┘
 ```
 
-Full request/response contract: see `docs/API_CONTRACT.md`.
+Full request/response API contract: see `docs/API_CONTRACT.md`.
 
-## Tech stack
+---
 
-- **Transcription:** Whisper (base/small), ONNX format, via `onnxruntime-qnn`
-- **Summarization:** Quantized small instruction-tuned LLM (Llama-3.2-1B/3B or Phi-3-mini), ONNX Runtime GenAI, QNN execution provider
-- **Backend:** Python (FastAPI), WebSocket streaming for live transcript
-- **Frontend:** HTML/JS (or React/Vite) — minimal, dark-mode, demo-optimized
-- **Hardware:** Snapdragon X Elite/Plus (HP Omnibook), Hexagon NPU
+## 🛠 Tech Stack
 
-## Setup
+- **Speech-to-Text:** Whisper (base), ONNX format via `onnxruntime-qnn`
+- **Summarization & Intelligence:** Local LLM, ONNX Runtime GenAI via `QNNExecutionProvider`
+- **Backend:** Python (FastAPI), WebSocket streaming (`WS /ws/transcribe`)
+- **Frontend:** HTML5 / Canvas Audio Visualizer / CSS3 / ES Modules — Venture-backed SaaS studio UI (Linear + Raycast + Chatbase + Reevo aesthetic)
+- **Hardware:** Snapdragon® X Elite / Plus, Hexagon NPU
+
+---
+
+## ⚡ Quick Setup & Run
 
 ```bash
 # 1. Clone
-git clone https://github.com/kshitij/offlinescribe.git
-cd offlinescribe
+git clone https://github.com/SlayerHADES/LiveScribe.git
+cd LiveScribe
 
-# 2. Backend (must be ARM64-native Python — see docs/npu_verification.md)
+# 2. Backend Setup
 cd backend
+python -m venv .venv
+.venv\Scripts\activate
 pip install -r requirements.txt
-python verify_npu.py   # confirms QNN execution provider is available
+python verify_npu.py   # confirms QNN execution provider availability
 
-# 3. Download models (not committed to repo — see docs/models.md)
+# 3. Export ONNX Models (One-Time)
 python scripts/download_models.py
 
-# 4. Run backend
-uvicorn app.main:app --reload
+# 4. Start Backend Server
+uvicorn app.main:app --port 8000
 
-# 5. Frontend (separate terminal)
+# 5. Start Frontend (Separate Terminal)
 cd ../frontend
 npm install
 npm run dev
 ```
 
-Open `http://localhost:5173` (or wherever Vite prints), click **Start Recording**, and speak.
+Open `http://localhost:5173` in your browser, click **Start Recording**, and speak into your microphone.
 
-## Demo
+---
 
-- Live demo: mic → live transcript → "Summarize Now" → structured summary + action items
-- **Offline proof:** enable airplane mode, everything still works — indicator shown in-app
-- Backup video (in case of live demo issues): `docs/demo.mp4`
+## 🏆 Team
 
-## Team
+**Kshitij Jaiswal** — Solo Build, Snapdragon® AI Lab Challenge 2026
 
-Kshitij M. — solo build, Snapdragon AI Lab Challenge 2026
+---
 
-## License
+## 📄 License
 
 MIT — see `LICENSE`
